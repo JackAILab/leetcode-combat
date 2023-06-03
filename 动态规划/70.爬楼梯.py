@@ -12,6 +12,9 @@
 # (5) Step5: 举例来推导dp数组
 # Jack Add Windows
 
+def climbStairs():
+    pass # add some
+
 class Solution:
     def climbStairs(self, n: int) -> int:
         dp = [0]*(n+1) # 初始化dp数组
