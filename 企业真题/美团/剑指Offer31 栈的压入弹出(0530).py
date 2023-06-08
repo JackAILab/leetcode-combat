@@ -9,16 +9,29 @@
 # push(5), pop() -> 5, pop() -> 3, pop() -> 2, pop() -> 1
 
 
+def validateStackSequences(pushed, popped):
+    stack = []  # 模拟栈
+    i = 0  # 弹出序列的索引
 
-class Solution:
-    def validateStackSequences(self, pushed: List[int], popped: List[int]) -> bool:
-        stack, i = [], 0 # 创建辅助栈!
-        for num in pushed:
-            stack.append(num) # num 入栈
-            while stack and stack[-1] == popped[i]: # 循环判断与出栈
-                stack.pop()
-                i += 1
-        return not stack
+    for num in pushed:
+        stack.append(num)  # 将数字入栈
+
+        while stack and stack[-1] == popped[i]:
+            stack.pop()  # 栈顶元素与弹出序列相同，弹出栈顶元素
+            i += 1  # 更新弹出序列的索引
+
+    return len(stack) == 0  # 如果栈为空，则弹出序列有效
+
+
+# 测试用例
+pushed = [1, 2, 3, 4, 5]
+popped = [4, 5, 3, 2, 1]
+print(validateStackSequences(pushed, popped))  # 输出: True
+
+pushed = [1, 2, 3, 4, 5]
+popped = [4, 3, 5, 1, 2]
+print(validateStackSequences(pushed, popped))  # 输出: False
+
 
 
 
