@@ -14,10 +14,10 @@ class Solution:
 
         len1, len2 = len(text1)+1, len(text2)+1 
 
-        dp = [[0 for _ in range(len1)] for _ in range(len2)] # 先对dp数组做初始化操作 shape = [4,6]]
+        dp = [[0 for _ in range(len1)] for _ in range(len2)] # 先对dp数组做初始化操作 shape = [4,6]
 
         for i in range(1, len2):
-            for j in range(1, len1): # 逐行扫描,大脑里面要有那个矩阵:https://jack-1310222578.cos.ap-guangzhou.myqcloud.com/typora_PicGo/202306192334630.png
+            for j in range(1, len1): # 逐行扫描,大脑里面要有那个矩阵:https://jack-1310222578.cos.ap-guangzhou.myqcloud.com/typora_PicGo/202306192334630.png or ![代码随想录递推关系图](https://jack-1310222578.cos.ap-guangzhou.myqcloud.com/typora_PicGo/202306251801010.png)
                 if text1[j-1] == text2[i-1]: # 第一种情况
                     dp[i][j] = dp[i-1][j-1]+1 # 末尾字符相同,各自减一个字符再去求LCS
                 else:
