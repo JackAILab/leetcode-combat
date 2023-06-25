@@ -57,22 +57,51 @@ myQueue.empty(); // return false
 class MyQueue:
 
     def __init__(self):
-        pass
+        """
+        in主要负责push，out主要负责pop
+        """
+        self.stack_in = []
+        self.stack_out = []
+
 
     def push(self, x: int) -> None:
-        pass
+        """
+        有新元素进来，就往in里面push
+        """
+        self.stack_in.append(x)
 
 
     def pop(self) -> int:
-        pass
+        """
+        Removes the element from in front of queue and returns that element.
+        """
+        if self.empty(): # 会先判断in或者out中是否有元素,任意一个有元素则会继续pop函数,否则直接跳出pop函数
+            return None
+        
+        if self.stack_out: # 出栈队列stOut中仍然存在元素,直接弹出元素即可
+            return self.stack_out.pop()
+        else:  # 只有当出栈队列stOut为空的时候, 再从stIn里导入数据 (导入stIn全部数据)
+            for i in range(len(self.stack_in)):
+                self.stack_out.append(self.stack_in.pop()) # [0625核心] 从stIn导入数据直到stIn为空,这里stIn的数据就改变首位顺序送入stOut了 
+                # 注意: 这里的pop()不是递归调用,而是python自带的栈弹出,默认弹出最后一个元素
+            return self.stack_out.pop() # 弹出第一个元素
 
 
     def peek(self) -> int:
-        pass
+        """
+        Get the front element.
+        """
+        ans = self.pop() # 可以看出peek()的实现，直接复用了pop()， 要不然，对stOut判空的逻辑又要重写一遍
+        self.stack_out.append(ans)
+        return ans
 
 
     def empty(self) -> bool:
-        pass
+        """
+        只要in或者out有元素，说明队列不为空
+        """
+        return not (self.stack_in or self.stack_out)
+
 
 
 
@@ -83,6 +112,12 @@ class MyQueue:
 # param_3 = obj.peek()
 # param_4 = obj.empty()
 
+queue = MyQueue()
+print(queue.push(1))
+print(queue.push(2))
+print(queue.peek())  # 返回 1
+print(queue.pop())   # 返回 1
+print(queue.empty()) # 返回 false
 
 
 
@@ -113,12 +148,24 @@ class MyQueue:
 
 '''
 ========================================================== 0625 学习笔记 ========================================================================
+在push数据的时候，只要数据放进输入栈就好，但在pop的时候，操作就复杂一些，
+输出栈如果为空，就把进栈数据全部导入进来（注意是全部导入），再从出栈弹出数据， # 这个是关键,可以代码随想录的模拟动画 (https://programmercarl.com/0232.%E7%94%A8%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97.html#%E6%80%9D%E8%B7%AF)
+如果输出栈不为空，则直接从出栈弹出数据就可以了。
 
+最后如何判断队列为空呢？如果进栈和出栈都为空的话，说明模拟的队列为空了。
 
+在代码实现的时候，会发现pop() 和 peek()两个函数功能类似，代码实现上也是类似的，可以思考一下如何把代码抽象一下。
 
+【拓展】很nice,技术流作用, 当然也要考虑人情世故流
+可以看出peek()的实现，直接复用了pop()， 要不然，对stOut判空的逻辑又要重写一遍。
 
+再多说一些代码开发上的习惯问题，在工业级别代码开发中，最忌讳的就是 实现一个类似的函数，直接把代码粘过来改一改就完事了。
 
+这样的项目代码会越来越乱，一定要懂得复用，功能相近的函数要抽象出来，不要大量的复制粘贴，很容易出问题！（踩过坑的人自然懂）
 
+工作中如果发现某一个功能自己要经常用，同事们可能也会用到，自己就花点时间把这个功能抽象成一个好用的函数或者工具类，不仅自己方便，也方便了同事们。
+
+同事们就会逐渐认可你的工作态度和工作能力，自己的口碑都是这么一点一点积累起来的！在同事圈里口碑起来了之后，你就发现自己走上了一个正循环，以后的升职加薪才少不了你！哈哈哈
 
 
 
